@@ -26,10 +26,14 @@ function buildJs() {
 		.pipe(gulp.dest('dist/'));
 }
 
-// function buildCss() {
-// 	return gulp.src('src/**/*.css')
-// 		.pipe(gulp.dest('dist/'));
-// }
+function buildCss() {
+	return gulp.src('src/**/*.css')
+		.pipe(autoprefixer({ cascade: false }))
+		.pipe(gulp.dest('dist/'))
+		.pipe(cleanCSS())
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(gulp.dest('dist/'));
+}
 
 function buildLess() {
 	return gulp.src('src/**/*.scss')
@@ -51,20 +55,13 @@ function buildSass() {
 		.pipe(gulp.dest('dist/'));
 }
 
-const buildCss = gulp.parallel(function buildCss() {
-	return gulp.src('src/**/*.css')
-		.pipe(autoprefixer({ cascade: false }))
-		.pipe(gulp.dest('dist/'))
-		.pipe(cleanCSS())
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(gulp.dest('dist/'));
-}, buildLess, buildSass);
+const buildStyle = gulp.parallel(buildCss, buildLess, buildSass);
 
 function buildHtml() {
 	return gulp.src(['src/**/*.html', 'src/**/*.htm'])
 		.pipe(gulp.dest('dist/'));
 }
 
-const build = gulp.parallel(buildJs, buildCss, buildHtml);
+const build = gulp.parallel(buildJs, buildStyle, buildHtml);
 
 exports.default = gulp.series(clean, build);
