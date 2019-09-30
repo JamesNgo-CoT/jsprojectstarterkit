@@ -1,1 +1,1 @@
-# jsprojectstarterkit
+# JS Project Starter Kit
