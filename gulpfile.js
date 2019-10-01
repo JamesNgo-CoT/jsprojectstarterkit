@@ -55,13 +55,13 @@ function buildSass() {
 		.pipe(gulp.dest('dist/'));
 }
 
-const buildStyle = gulp.parallel(buildCss, buildLess, buildSass);
+const buildAllStyles = gulp.parallel(buildCss, buildLess, buildSass);
 
 function buildHtml() {
 	return gulp.src(['src/**/*.html', 'src/**/*.htm'])
 		.pipe(gulp.dest('dist/'));
 }
 
-const build = gulp.parallel(buildJs, buildStyle, buildHtml);
+const build = gulp.parallel(buildJs, buildAllStyles, buildHtml);
 
 exports.default = gulp.series(clean, build);
